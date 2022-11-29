@@ -7,11 +7,10 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>hadoop-ws-api</name>
-  <url>http://maven.apache.org</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
     <hadoop.version>3.3.4</hadoop.version>
   </properties>
 
