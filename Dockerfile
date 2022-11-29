@@ -35,7 +35,7 @@ RUN \
   mkdir $HADOOP_HOME/etc/dfs/datanode
 
 # port numbers to export
-#EXPOSE 8080
+EXPOSE 9870
 
 # change working directory
 #WORKDIR ~
