@@ -9,6 +9,7 @@ MAINTAINER Malachai Lee <prussian1933@naver.com>
 # java and utils installation
 RUN \
   yum install which -y	&& \
+  yum install openssh-server openssh-clients openssh-askpass -y && \
   yum install nano -y	&& \
   yum install java-1.8.0-openjdk-devel.x86_64 -y
 # java path
@@ -23,7 +24,7 @@ RUN \
   mv hadoop-3.3.4 /usr/lib/hadoop-3.3.4
 # hadoop path
 ENV HADOOP_HOME=/usr/lib/hadoop-3.3.4
-ENV PATH=$PATH:$HADOOP_HOME/bin
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 # ===========================
 
 # ===========================
@@ -44,7 +45,10 @@ RUN \
 # ===========================
 
 # port numbers to export
+# hdfs web ui
 EXPOSE 9870
+# default file system
+EXPOSE 9000
 
 # change working directory
 #WORKDIR ~
