@@ -10,18 +10,13 @@
     <!--- global properties -->
 
     <property>
-        <name>dfs.replication</name>
-        <value>1</value>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
     </property>
 
     <property>
-        <name>dfs.namenode.name.dir</name>
-        <value>$HADOOP_HOME/dfs/namenode</value>
-    </property>
-
-    <property>
-        <name>dfs.datanode.data.dir</name>
-        <value>$HADOOP_HOME/dfs/datanode</value>
+        <name>mapreduce.application.classpath</name>
+        <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
     </property>
 
 </configuration>
