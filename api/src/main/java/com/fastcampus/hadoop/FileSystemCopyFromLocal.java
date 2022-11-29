@@ -13,9 +13,10 @@ public class FileSystemCopyFromLocal {
     public static void main(String[] args) throws IOException {
         String localSrc = args[0];
         String dest = args[1];
-
         Configuration conf = new Configuration();
+
         InputStream in = new BufferedInputStream(new FileInputStream(localSrc));
+
         FileSystem fs = FileSystem.get(URI.create(dest), conf);
         OutputStream out = fs.create(new Path(dest));
 
