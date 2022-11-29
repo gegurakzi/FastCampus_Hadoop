@@ -16,12 +16,12 @@
 
     <property>
         <name>dfs.namenode.name.dir</name>
-        <value>$HADOOP_HOME/dfs/namenode</value>
+        <value>/usr/lib/hadoop-3.3.4/dfs/namenode</value>
     </property>
 
     <property>
         <name>dfs.datanode.data.dir</name>
-        <value>$HADOOP_HOME/dfs/datanode</value>
+        <value>/usr/lib/hadoop-3.3.4/dfs/datanode</value>
     </property>
 
 </configuration>
