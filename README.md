@@ -21,3 +21,12 @@ as the root directory of this project is /usr/lib directory in docker container,
 # simple example for map-reduce test
 > hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.4.jar pi 16 10000
 ```
+
+## 2. Simple Java APIs for Hadoop
+project root : /api directory
+
+`com.fastcampus.hadoop.FileSystemPrint` Simple std print for a file in HDFS
+`com.fastcampus.hadoop.FileSystemListStatus` Simple file list for a directory in HDFS
+`com.fastcampus.hadoop.FileSystemCopyFromLocal` Simple file copy for a file in local to HDFS
+`com.fastcampus.hadoop.FileSystemDeleteFile` Simple file deletion for a file in HDFS
+
