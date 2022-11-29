@@ -33,6 +33,9 @@ COPY hadoop-3.3.4/etc/hadoop/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
 COPY hadoop-3.3.4/etc/hadoop/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 COPY hadoop-3.3.4/etc/hadoop/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 COPY hadoop-3.3.4/etc/hadoop/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
+# copy hadoop environment script
+COPY hadoop-3.3.4/sbin/hadoop-env.sh $HADOOP_HOME/sbin/hadoop-env.sh
+
 # make namenode, datanode config directory
 RUN \
   mkdir $HADOOP_HOME/etc/dfs  && \
