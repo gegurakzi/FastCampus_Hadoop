@@ -25,6 +25,16 @@ RUN \
 # hadoop path
 ENV HADOOP_HOME=/usr/lib/hadoop-3.3.4
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+# maven installation for hadoop java api
+RUN \
+  cd /home		&& \
+  curl -L -O https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz  && \
+  tar -xzvf apache-maven-3.8.6-bin.tar.gz	&& \
+  mv apache-maven-3.8.6 /usr/lib/apache-maven-3.8.6
+# maven path
+ENV MAVEN_HOME=/usr/lib/apache-maven-3.8.6
+ENV PATH=$PATH:$MAVEN_HOME/bin
 # ===========================
 
 # ===========================
