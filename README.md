@@ -34,3 +34,7 @@ project root : /api directory
 project root : /job/mapreduce directory
 
 `com.fastcampus.hadoop.WordCount` Simple word count job
+## 3. Simple Hadoop MapReduce Jobs
+project root : /job/mapreduce directory
+
+`com.fastcampus.hadoop.WordCount` Simple word count job
