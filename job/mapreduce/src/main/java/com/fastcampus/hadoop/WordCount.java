@@ -10,6 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -65,8 +66,10 @@ public class WordCount extends Configured implements Tool {
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        // main 함수를 통해 실행할 수 있도록 생성
+        int exitCode = ToolRunner.run(new WordCount(), args);
+        System.out.println(exitCode);
     }
 
 }

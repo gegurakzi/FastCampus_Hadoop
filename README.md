@@ -30,3 +30,7 @@ project root : /api directory
 `com.fastcampus.hadoop.FileSystemCopyFromLocal` Simple file copy for a file in local to HDFS
 `com.fastcampus.hadoop.FileSystemDeleteFile` Simple file deletion for a file in HDFS
 
+## 3. Simple Hadoop MapReduce Jobs
+project root : /job/mapreduce directory
+
+`com.fastcampus.hadoop.WordCount` Simple word count job
