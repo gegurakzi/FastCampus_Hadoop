@@ -20,7 +20,7 @@ public class WordCount extends Configured implements Tool {
     // 맵퍼 클래스는 static으로 선언
     // 제네릭은 순서대로 입력 key, 입력 value, 출력 key, 출력 value
     public static class TokenizeMapper extends Mapper<Object, Text, Text, IntWritable> {
-        private Text word;
+        private Text word = new Text();
         private IntWritable one = new IntWritable(1);
 
         @Override
@@ -54,8 +54,10 @@ public class WordCount extends Configured implements Tool {
         Job job = Job.getInstance(getConf(), "wordcount");
         // job에 필요한 설정
         job.setJarByClass(WordCount.class); // entry 클래스
+
         job.setMapperClass(TokenizeMapper.class); // 맵퍼 클래스
         job.setReducerClass(IntSumReducer.class); // 리듀서 클래스
+
         job.setOutputKeyClass(Text.class); // 출력 키
         job.setOutputValueClass(IntWritable.class); // 출력 값
 
