@@ -1,6 +1,6 @@
 package com.fastcampus.hadoop;
 
-import com.fastcampus.hadoop.key.EntryWritable;
+import com.fastcampus.hadoop.key.TextTupleWritable;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -37,14 +37,14 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
 
     // Paritioner 클래스
     // Key 를 기준으로 전달할 Reducer 를 결정한다.
-    public static class KeyPartitioner extends Partitioner<EntryWritable<Text, Text>, Text> {
+    public static class KeyPartitioner extends Partitioner<TextTupleWritable, Text> {
 
         // 파라미터는 순서대로 키, 값, 파티션 개수이다.
         // 반환값은 Partition의 번호이다.
         // EntryWritable의 key값이 같은 경우엔 같은 partition 번호를 반환한다.
         // Bitwise 연산을 한 이유는, partition 번호는 항상 양수여야 하기 떄문이다.
         @Override
-        public int getPartition(EntryWritable<Text, Text> key, Text value, int i) {
+        public int getPartition(TextTupleWritable key, Text value, int i) {
             return (key.getKey().hashCode() & Integer.MAX_VALUE) % i;
         }
     }
@@ -55,13 +55,13 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
     // Key 가 같은 레코드들은 같은 reduce 함수에 입력된다.
     public static class GroupComparator extends WritableComparator {
         protected GroupComparator() {
-            super(EntryWritable.class, true);
+            super(TextTupleWritable.class, true);
         }
 
         @Override
         public int compare(WritableComparable a, WritableComparable b) {
-            EntryWritable<Text, Text> t1 = (EntryWritable) a;
-            EntryWritable<Text, Text> t2 = (EntryWritable) b;
+            TextTupleWritable t1 = (TextTupleWritable) a;
+            TextTupleWritable t2 = (TextTupleWritable) b;
             return t1.getKey().compareTo(t2.getKey());
         }
     }
@@ -70,13 +70,13 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
     // 앞서 Grouping 된 레코드들을 정렬 해준다.
     public static class KeyComparator extends WritableComparator {
         protected KeyComparator() {
-            super(EntryWritable.class, true);
+            super(TextTupleWritable.class, true);
         }
 
         @Override
         public int compare(WritableComparable a, WritableComparable b) {
-            EntryWritable<Text, Text> t1 = (EntryWritable) a;
-            EntryWritable<Text, Text> t2 = (EntryWritable) b;
+            TextTupleWritable t1 = (TextTupleWritable) a;
+            TextTupleWritable t2 = (TextTupleWritable) b;
             int cmp = t1.getKey().compareTo(t2.getKey());
             if (cmp!=0) return cmp;
             return t1.getValue().compareTo(t2.getValue());
@@ -84,11 +84,11 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
     }
 
     // Employee Mapper 클래스
-    public static class EmployeeMapper extends Mapper<LongWritable, Text, EntryWritable<Text, Text>, Text> {
-        EntryWritable<Text, Text> outKey = new EntryWritable<>(new Text(), new Text());
+    public static class EmployeeMapper extends Mapper<LongWritable, Text, TextTupleWritable, Text> {
+        TextTupleWritable outKey = new TextTupleWritable();
         Text outValue = new Text();
         @Override
-        protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, EntryWritable<Text, Text>, Text>.Context context) throws IOException, InterruptedException {
+        protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, TextTupleWritable, Text>.Context context) throws IOException, InterruptedException {
             String[] split = value.toString().split(",");
             outKey.set(new Text(split[6]), new Text(DataType.EMPLOYEE.value()));
             outValue.set(split[0]+"\t"+split[2]+"\t"+split[4]+"\t");
@@ -96,11 +96,11 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
         }
     }
     // Department Mapper 클래스
-    public static class DepartmentMapper extends Mapper<LongWritable, Text, EntryWritable<Text, Text>, Text> {
-        EntryWritable<Text, Text> outKey = new EntryWritable<>(new Text(), new Text());
+    public static class DepartmentMapper extends Mapper<LongWritable, Text, TextTupleWritable, Text> {
+        TextTupleWritable outKey = new TextTupleWritable();
         Text outValue = new Text();
         @Override
-        protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, EntryWritable<Text, Text>, Text>.Context context) throws IOException, InterruptedException {
+        protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, TextTupleWritable, Text>.Context context) throws IOException, InterruptedException {
             String[] split = value.toString().split(",");
             outKey.set(new Text(split[0]), new Text(DataType.DEPARTMENT.value()));
             outValue.set(split[1]);
@@ -108,11 +108,11 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
         }
     }
 
-    public static class ReduceSideJoinReducer extends Reducer<EntryWritable<Text, Text>, Text, Text, Text> {
+    public static class ReduceSideJoinReducer extends Reducer<TextTupleWritable, Text, Text, Text> {
         Text outKey = new Text();
         Text outValue = new Text();
         @Override
-        protected void reduce(EntryWritable<Text, Text> key, Iterable<Text> values, Reducer<EntryWritable<Text, Text>, Text, Text, Text>.Context context) throws IOException, InterruptedException {
+        protected void reduce(TextTupleWritable key, Iterable<Text> values, Reducer<TextTupleWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
             Iterator<Text> iter = values.iterator();
             // values는 Enum의 value 값을 기준으로 정렬되어 입력되기 때문에 첫 레코드의 값은 무조건 ENUM_DATATYPE_DEPARTMENT의 값이다.
             String departmentText = iter.next().toString();
@@ -136,7 +136,7 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
 
         job.setReducerClass(ReduceSideJoinReducer.class);
 
-        job.setMapOutputKeyClass(EntryWritable.class);
+        job.setMapOutputKeyClass(TextTupleWritable.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setOutputKeyClass(Text.class);

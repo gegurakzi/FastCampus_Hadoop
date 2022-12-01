@@ -1,5 +1,6 @@
 package com.fastcampus.hadoop.key;
 
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 
@@ -10,45 +11,32 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class EntryWritable<K extends Writable, V extends Writable> implements WritableComparable<EntryWritable<K, V>>, Map.Entry<K, V> {
-    private K key;
-    private V value;
+public class TextTupleWritable implements WritableComparable<TextTupleWritable> {
+    private Text key;
+    private Text value;
 
-    public EntryWritable() {
-        super();
+    public TextTupleWritable() {
+        this.key = new Text();
+        this.value = new Text();
     }
-    public EntryWritable(K key, V value) {
+
+    public void set(Text key, Text value) {
         this.key = key;
         this.value = value;
     }
 
-    public void set(K key, V value) {
-        this.key = key;
-        this.value = value;
+    public Text getKey() {
+        return key;
+    }
+    public Text getValue() {
+        return value;
     }
 
     @Override
-    public K getKey() {
-        return this.key;
-    }
-
-    @Override
-    public V getValue() {
-        return this.value;
-    }
-
-    @Override
-    public V setValue(V value) {
-        V oldVal = this.value;
-        this.value = value;
-        return oldVal;
-    }
-
-    @Override
-    public int compareTo(EntryWritable<K, V> o) {
-        int cmp = ((Comparable<K>)key).compareTo(o.key);
+    public int compareTo(TextTupleWritable o) {
+        int cmp = key.compareTo(o.key);
         if (cmp!=0) return cmp;
-        return ((Comparable<V>)value).compareTo(o.value);
+        return value.compareTo(o.value);
     }
 
     @Override
@@ -67,7 +55,7 @@ public class EntryWritable<K extends Writable, V extends Writable> implements Wr
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EntryWritable<?, ?> that = (EntryWritable<?, ?>) o;
+        TextTupleWritable that = (TextTupleWritable) o;
         return Objects.equals(key, that.key) && Objects.equals(value, that.value);
     }
     @Override
