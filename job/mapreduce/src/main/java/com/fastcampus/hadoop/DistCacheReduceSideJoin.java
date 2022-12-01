@@ -13,11 +13,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,76 +22,32 @@ public class DistCacheReduceSideJoin extends Configured implements Tool {
     public static class EmployeeMapper extends Mapper<LongWritable, Text, Text, Text> {
         Text outKey = new Text();
         Text outValue = new Text();
-        Map<String, String[]> employeesMap = new HashMap<>();
-
-        @Override
-        protected void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
-            URI[] uris = context.getCacheFiles();
-            for (URI uri : uris) {
-                Path path = new Path(uri.getPath());
-                // 파일명을 사용하여 정의한 메모리 로드함수를 호출한다.
-                System.out.println(path.getName());
-                if(path.getName().equals("employees")) loadEmployeesMap(path.getName());
-            }
-        }
 
         @Override
         protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
             String[] split = value.toString().split(",");
             // mapper 의 출력 key 를 dept_no 로 설정한다.
-            String[] cols = employeesMap.get(split[0]);
-            outKey.set(cols[5]);
+            outKey.set(split[6]);
             // 어느 mapper 에서 출력한 레코드인지 알 수 있도록 prefix 를 추가한다.
-            outValue.set("e"+"\t"+split[0]+"\t"+cols[1]+"\t"+cols[3]+"\t");
+            outValue.set("e"+"\t"+split[0]+"\t"+split[2]+"\t"+split[4]+"\t");
             context.write(outKey, outValue);
-        }
-
-        private void loadEmployeesMap(String fileName) throws IOException {
-            String line = "";
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-                while ((line = br.readLine()) != null) {
-                    String[] split = line.split(",");
-                    employeesMap.put(split[0], Arrays.copyOfRange(split, 1, split.length));
-                }
-            }
         }
     }
 
     public static class DepartmentMapper extends Mapper<LongWritable, Text, Text, Text> {
         Text outKey = new Text();
         Text outValue = new Text();
-        Map<String, String[]> departmentsMap = new HashMap<>();
-
-        @Override
-        protected void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
-            URI[] uris = context.getCacheFiles();
-            for (URI uri : uris) {
-                Path path = new Path(uri.getPath());
-                // 파일명을 사용하여 정의한 메모리 로드함수를 호출한다.
-                System.out.println(path.getName());
-                if(path.getName().equals("department")) loadDepartmentsMap(path.getName());
-            }
-        }
 
         @Override
         protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
             String[] split = value.toString().split(",");
             // mapper 의 출력 key 를 dept_no 로 설정한다.
-            String[] cols = departmentsMap.get(split[0]);
             outKey.set(split[0]);
             // 어느 mapper 에서 출력한 레코드인지 알 수 있도록 prefix 를 추가한다.
-            outValue.set("d"+"\t"+cols[0]);
+            outValue.set("d"+"\t"+split[1]);
             context.write(outKey, outValue);
         }
-        private void loadDepartmentsMap(String fileName) throws IOException {
-            String line = "";
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-                while ((line = br.readLine()) != null) {
-                    String[] split = line.split(",");
-                    departmentsMap.put(split[0], Arrays.copyOfRange(split, 1, split.length));
-                }
-            }
-        }
+
     }
 
     public static class ReduceSideJoinReducer extends Reducer<Text, Text, Text, Text> {
@@ -137,10 +89,10 @@ public class DistCacheReduceSideJoin extends Configured implements Tool {
         job.setOutputValueClass(Text.class);
 
         // Mapper나 InputFormat이 서로 다른 하나 이상의 파일 경로로 입력을 받기 위해 MultipleInputs api를 사용한다.
-        // MultipleInputs.addInputPath(job, new Path(strings[0]), TextInputFormat.class, EmployeeMapper.class);
-        // MultipleInputs.addInputPath(job, new Path(strings[1]), TextInputFormat.class, DepartmentMapper.class);
+        MultipleInputs.addInputPath(job, new Path(strings[0]), TextInputFormat.class, EmployeeMapper.class);
+        MultipleInputs.addInputPath(job, new Path(strings[1]), TextInputFormat.class, DepartmentMapper.class);
 
-        FileOutputFormat.setOutputPath(job, new Path(strings[0]));
+        FileOutputFormat.setOutputPath(job, new Path(strings[2]));
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
