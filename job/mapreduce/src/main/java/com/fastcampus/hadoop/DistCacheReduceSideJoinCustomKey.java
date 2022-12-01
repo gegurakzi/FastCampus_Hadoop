@@ -36,6 +36,7 @@ public class DistCacheReduceSideJoinCustomKey extends Configured implements Tool
     }
 
     // Paritioner 클래스
+    // Key 를 기준으로 전달할 Reducer 를 결정한다.
     public static class KeyPartitioner extends Partitioner<EntryWritable<Text, Text>, Text> {
 
         // 파라미터는 순서대로 키, 값, 파티션 개수이다.

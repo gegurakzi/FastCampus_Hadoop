@@ -14,6 +14,9 @@ public class EntryWritable<K extends Writable, V extends Writable> implements Wr
     private K key;
     private V value;
 
+    public EntryWritable() {
+        super();
+    }
     public EntryWritable(K key, V value) {
         this.key = key;
         this.value = value;
