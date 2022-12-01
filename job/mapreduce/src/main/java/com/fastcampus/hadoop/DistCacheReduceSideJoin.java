@@ -81,7 +81,6 @@ public class DistCacheReduceSideJoin extends Configured implements Tool {
     @Override
     public int run(String[] strings) throws Exception {
         Job job = Job.getInstance(getConf(), "DistributedCacheReduceSideJoin");
-
         job.setJarByClass(DistCacheReduceSideJoin.class);
 
         job.setReducerClass(ReduceSideJoinReducer.class);
