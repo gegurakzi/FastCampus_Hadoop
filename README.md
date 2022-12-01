@@ -25,16 +25,20 @@ as the root directory of this project is /usr/lib directory in docker container,
 ## 2. Simple Java APIs for Hadoop
 project root : /api directory
 
-`com.fastcampus.hadoop.FileSystemPrint` Simple std print for a file in HDFS
-`com.fastcampus.hadoop.FileSystemListStatus` Simple file list for a directory in HDFS
-`com.fastcampus.hadoop.FileSystemCopyFromLocal` Simple file copy for a file in local to HDFS
-`com.fastcampus.hadoop.FileSystemDeleteFile` Simple file deletion for a file in HDFS
+`com.fastcampus.hadoop.FileSystemPrint` Simple std print for a file in HDFS\
+`com.fastcampus.hadoop.FileSystemListStatus` Simple file list for a directory in HDFS\
+`com.fastcampus.hadoop.FileSystemCopyFromLocal` Simple file copy for a file in local to HDFS\
+`com.fastcampus.hadoop.FileSystemDeleteFile` Simple file deletion for a file in HDFS\
 
 ## 3. Simple Hadoop MapReduce Jobs
 project root : /job/mapreduce directory
 
-`com.fastcampus.hadoop.WordCount` Simple word count job
-## 3. Simple Hadoop MapReduce Jobs
-project root : /job/mapreduce directory
+`com.fastcampus.hadoop.WordCount` Simple word count job\
+`com.fastcampus.hadoop.GenericOptionsParserApp` Simple GenericOptionsParser example application\
+`com.fastcampus.hadoop.ToolRunnerApp` Simple ToolRunner example application\
+`com.fastcampus.hadoop.WordCountWithCounter` Simple Counter example application\
+`com.fastcampus.hadoop.SortWordCount` Simple sorting job\
+`com.fastcampus.hadoop.DistCacheMapSideJoin` Simple Map-Side Join job\
+`com.fastcampus.hadoop.DistCacheReduceSideJoin` Simple Reduce-Side Join job\
+`com.fastcampus.hadoop.DistCacheReduceSideJoinCustomKey` Reduce-Side Join job with secondary sort
 
-`com.fastcampus.hadoop.WordCount` Simple word count job
