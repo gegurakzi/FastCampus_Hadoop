@@ -21,7 +21,7 @@ public class WordCount extends Configured implements Tool {
     // 제네릭은 순서대로 입력 key, 입력 value, 출력 key, 출력 value 이다.
     // 출력 key, 출력 value 는 run 함수에서 설정한 타입과 일치해야 한다.
     public static class TokenizeMapper extends Mapper<Object, Text, Text, IntWritable> {
-        private Text word = new Text();
+        protected Text word = new Text();
         private IntWritable one = new IntWritable(1);
 
         @Override

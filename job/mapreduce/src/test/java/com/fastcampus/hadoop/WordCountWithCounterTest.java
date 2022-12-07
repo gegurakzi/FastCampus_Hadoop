@@ -3,14 +3,18 @@ package com.fastcampus.hadoop;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Counter;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -122,5 +126,36 @@ public class WordCountWithCounterTest {
         assertEquals(withoutSpecial, 6);
     }
 
+    @Test
+    // Mockito 를 사용한 Counter 테스트
+    public void wordCountCounterTestWithMockito1() throws IOException, InterruptedException {
+        /* GIVEN */
+        WordCountWithCounter.TokenizeMapper mapper = new WordCountWithCounter.TokenizeMapper();
+        // Context 와 Counter 의 Mock 객체를 생성한다.
+        // Counter 의 최종 결과는 increment 메소드 호출 횟수를 통해 결정된다.
+        Mapper.Context context = mock(Mapper.Context.class);
+        Counter withCounter = mock(Counter.class);
+        Counter withoutCounter = mock(Counter.class);
+
+        LongWritable key = new LongWritable(0L);
+        Text value = new Text("dog dog cat owl! dog cow? cat owl! dog");
+
+        // context 의 getCounter 메소드가 호출되면 해당 counter 의 Mock 객체를 반환하도록 설정한다.
+        when(context.getCounter(WordCountWithCounter.Word.WITH_SPECIAL_CHARACTER))
+                .thenReturn(withCounter);
+        when(context.getCounter(WordCountWithCounter.Word.WITHOUT_SPECIAL_CHARACTER))
+                .thenReturn(withoutCounter);
+
+        /* WHEN */
+        mapper.map(key, value, context);
+
+        /* THEN */
+        // WITH_SPECIAL_COUNTER 의 increment 메소드는 해당 입력에서 총 3번 호출된다.
+        // increment 메소드가 호출될 때의 인자는 언제나 1로 동일하다.
+        verify(withCounter, times(3)).increment(1);
+        // WITHOUT_SPECIAL_COUNTER 의 increment 메소드는 해당 입력에서 총 6번 호출된다.
+        verify(withoutCounter, times(6)).increment(1);
+
+    }
 
 }

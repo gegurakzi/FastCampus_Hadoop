@@ -23,12 +23,12 @@ import java.util.Map;
 public class DistCacheMapSideJoin extends Configured implements Tool {
 
     public static class MapSideJoinMapper extends Mapper<LongWritable, Text, Text, Text> {
-        Text outKey = new Text();
-        Text outValue = new Text();
+        protected Text outKey = new Text();
+        protected Text outValue = new Text();
 
         // Mapper 내에선 캐싱되어있는 파일을 불러오는 코드가 필요하다.
         // 캐싱된 파일을 메모리에 담아두기 위해 객체를 생성한다.
-        Map<String, String> departmentsMap = new HashMap<>();
+        protected Map<String, String> departmentsMap = new HashMap<>();
 
         // setup 함수의 오버라이딩을 통해 캐싱된 파일을 불러올 수 있다.
         @Override

@@ -3,16 +3,23 @@ package com.fastcampus.hadoop;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
+import org.mockito.Mock;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class WordCountTest {
 
@@ -145,4 +152,70 @@ public class WordCountTest {
         // result.toString() == [(cat, 2), (cow, 1), (dog, 4), (owl, 2)]
         System.out.println(result);
     }
+
+
+    @Test
+    // Mockito 를 통해 테스트를 진행한다.
+    // 객체의 멤버, 메소드의 변경, 호출 등을 관리 및 검증할 수 있는 Mock 객체를 이용한다.
+    public void wordCountMapTestWithMockito1() throws IOException, InterruptedException {
+        /* GIVEN */
+        // 1. 테스트 할 Mapper 의 객체를 생성한다.
+        WordCount.TokenizeMapper mapper = new WordCount.TokenizeMapper();
+
+        // 2. 테스트 할 map 메소드의 인자들을 mock 객체로 생성한다.
+        // key 와 value 는 검증할 필요가 없기 때문에 실제 객체로 생성한다.
+        LongWritable key = new LongWritable(0L);
+        Text value = new Text("dog dog cat owl dog cow cat owl dog");
+        // map 메소드 내 mapper.word.set, context.write 메소드의 정상 호출 여부를 검증하기 위해 mock 객체로 생성한다.
+        mapper.word = mock(Text.class);
+        Mapper.Context context = mock(Mapper.Context.class);
+
+        /* WHEN */
+        // 3. 인자를 전달하여 테스트를 수행한다.
+        mapper.map(key, value, context);
+
+        /* THEN */
+        // 4. 테스트 결과를 검증한다.
+        // 메소드 호출 순서를 검증하기 위해선 InOrder 객체를 생성해야 한다.
+        // 정상적인 호출 순서는 word.set - context.write - word.set - context.write - ... 이다.
+        // 이를 검증하기 위해 mapper 의 word 와 context 를 인자로 넘겨 생성한다.
+        // mapper.word 의 접근 제한은 protected 로 설정해야 한다.
+        InOrder inOrder = inOrder(mapper.word, context);
+
+        // Text 클래스인 mapper.word 의 set 메소드가 먼저 호출됨을 검증한다.
+        inOrder.verify(mapper.word)
+                // eq 메소드를 통해 set 메소드의 인자로 전달되는 String 이 입력값과 동일한지 검증한다.
+                .set(eq("dog"));
+        // Context 클래스인 context 의 write 메소드가 다음으로 호출됨은 검증한다.
+        inOrder.verify(context)
+                // eq 메소드를 통해 set 메소드의 인자로 전달되는 Text(mapper.word)와 IntWritable 이 동일한지 검증한다
+                .write(eq(mapper.word), eq(new IntWritable(1)));
+        // 이후 반복
+        inOrder.verify(mapper.word).set(eq("dog"));
+        inOrder.verify(context).write(eq(mapper.word), eq(new IntWritable(1)));
+        inOrder.verify(mapper.word).set(eq("cat"));
+        inOrder.verify(context).write(eq(mapper.word), eq(new IntWritable(1)));
+        inOrder.verify(mapper.word).set(eq("owl"));
+        inOrder.verify(context).write(eq(mapper.word), eq(new IntWritable(1)));
+
+
+    }
+
+    @Test
+    public void wordCountReduceTestWithMockito1() throws IOException, InterruptedException {
+        /* GIVEN */
+        WordCount.IntSumReducer reducer = new WordCount.IntSumReducer();
+
+        Text key = new Text("dog");
+        List<IntWritable> values = Arrays.asList(new IntWritable(1), new IntWritable(1), new IntWritable(1));
+        Reducer.Context context = mock(Reducer.Context.class);
+
+        /* WHEN */
+        reducer.reduce(key, values, context);
+
+        /* THEN */
+        verify(context).write(eq(key), eq(new IntWritable(3)));
+
+    }
+
 }
