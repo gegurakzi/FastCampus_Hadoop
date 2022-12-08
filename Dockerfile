@@ -35,6 +35,20 @@ RUN \
 # maven path
 ENV MAVEN_HOME=/usr/lib/apache-maven-3.8.6
 ENV PATH=$PATH:$MAVEN_HOME/bin
+
+# python3 and spark installation
+RUN \
+  cd /home		&& \
+  yum install python3 -y		&& \
+  curl https://bootstrap.pypa.io/pip/3.6/get-pip.py | python3
+RUN \
+  cd /home		&& \
+  curl -L -O https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz		&& \
+  tar -xvzf spark-3.3.1-bin-hadoop3.tgz		&& \
+  mv spark-3.3.1-bin-hadoop3 /usr/lib
+# spark path
+ENV SPARK_HOME=/usr/lib/spark-3.3.1-bin-hadoop3
+ENV PATH=$PATH:$SPARK_HOME/bin
 # ===========================
 
 # ===========================
@@ -54,11 +68,14 @@ RUN \
   mkdir $HADOOP_HOME/etc/dfs/datanode
 # ===========================
 
+
 # port numbers to export
-# hdfs web ui
-EXPOSE 9870
 # default file system
 EXPOSE 9000
+# hdfs web ui
+EXPOSE 9870
+# spark web ui
+#EXPOSE
 
 # change working directory
 #WORKDIR ~
