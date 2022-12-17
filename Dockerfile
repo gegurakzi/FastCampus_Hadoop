@@ -49,6 +49,11 @@ RUN \
 # spark path
 ENV SPARK_HOME=/usr/lib/spark-3.3.1-bin-hadoop3
 ENV PATH=$PATH:$SPARK_HOME/bin
+
+# spark-hadoop path
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+#ENV YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop
+
 # ===========================
 
 # ===========================
@@ -66,18 +71,24 @@ RUN \
   mkdir $HADOOP_HOME/etc/dfs  && \
   mkdir $HADOOP_HOME/etc/dfs/namenode  && \
   mkdir $HADOOP_HOME/etc/dfs/datanode
+
 # ===========================
 
 
 # port numbers to export
-# default file system
+# default file system =======
+
+# Hadoop ====================
+# default file system (default: 9000)
 EXPOSE 9000
-# hdfs web ui
+# HDFS web UI (default: 9870)
 EXPOSE 9870
-# spark web ui
+# Spark =====================
+# spark master
 #EXPOSE
+# driver web UI (default: 4040)
+#EXPOSE 4040
+# history server web UI (default: 4040)
 
-# change working directory
-#WORKDIR ~
-
+# cluster manager web UI (default: 4040)
 
