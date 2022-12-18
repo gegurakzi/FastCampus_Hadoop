@@ -83,12 +83,18 @@ RUN \
 EXPOSE 9000
 # HDFS web UI (default: 9870)
 EXPOSE 9870
+# YARN ResourceManager WEB UI
+EXPOSE 8088
+# YARN ResourceManager Scheduler WEB UI
+EXPOSE 8030
+# YARN NodeManager WEB UI
+EXPOSE 8042
 # Spark =====================
 # spark master
 #EXPOSE
 # driver web UI (default: 4040)
-#EXPOSE 4040
-# history server web UI (default: 4040)
-
-# cluster manager web UI (default: 4040)
+EXPOSE 4040
+# history server web UI (default: 18080)
+EXPOSE 18080
+# cluster manager web UI (YARN default: 8088)
 
