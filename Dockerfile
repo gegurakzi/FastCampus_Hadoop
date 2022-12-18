@@ -81,8 +81,8 @@ RUN \
 # Hadoop ====================
 # default file system (default: 9000)
 EXPOSE 9000
-# HDFS web UI (default: 9870)
-EXPOSE 9870
+# HDFS Namanode, Datanode web UI (NN default: 9870)
+EXPOSE 9800-9900
 # YARN ResourceManager WEB UI
 EXPOSE 8088
 # YARN ResourceManager Scheduler WEB UI
