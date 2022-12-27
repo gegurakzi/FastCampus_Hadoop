@@ -42,3 +42,24 @@ project root : /job/mapreduce directory
 `com.fastcampus.hadoop.DistCacheReduceSideJoin` Simple Reduce-Side Join job\
 `com.fastcampus.hadoop.DistCacheReduceSideJoinCustomKey` Reduce-Side Join job with secondary sort
 
+## 4. Simple Cluster Setup with docker-compose
+total 5 containers deployed by docker-compose.yml
+including scripts that help ssh keygen and sharing public keys by authorized_keys file
+
+- exposed ports
+  - 9870: HDFS Web UI\
+  - 8088: YARN Web UI\
+  - 4040: Driver(Application Master) Web UI\
+  - 18080: Spark History Server UI
+```
+# cluster deployment with docker-compose(with superuser)
+> docker-compose up -d
+
+# ssh keygen
+> sudo bin/deploy-ssh-keys.sh
+
+# share ssh public keys
+> sudo bin/deploy-ssh-authorized-keys.sh
+
+# ...you should configure *-site.xml hostnames to master01
+```
