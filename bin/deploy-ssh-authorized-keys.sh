@@ -1,30 +1,15 @@
 #!/usr/bin/env bash
 
 get_authorized_keys() {
-  sudo docker attach master01
-  local m1=cat ~/.ssh/id_rsa.pub
-  exit
-  sudo docker start master01
+  local m1=sudo docker exec master01 cat ~/.ssh/id_rsa.pub
 
-  sudo docker attach master02
-  local m2=cat ~/.ssh/id_rsa.pub
-  exit
-  sudo docker start master02
+  local m2=sudo docker exec master02 cat ~/.ssh/id_rsa.pub
 
-  sudo docker attach slave01
-  local s1=cat ~/.ssh/id_rsa.pub
-  exit
-  sudo docker start slave01
+  local s1=sudo docker exec slave01 cat ~/.ssh/id_rsa.pub
 
-  sudo docker attach slave02
-  local s2=cat ~/.ssh/id_rsa.pub
-  exit
-  sudo docker start slave02
+  local s2=sudo docker exec slave02 cat ~/.ssh/id_rsa.pub
 
-  sudo docker attach slave03
-  local s3=cat ~/.ssh/id_rsa.pub
-  exit
-  sudo docker start slave03
+  local s3=sudo docker exec slave03 cat ~/.ssh/id_rsa.pub
 
   echo m1
   echo m2
