@@ -11,11 +11,11 @@ get_authorized_keys() {
 
   local s3=sudo docker exec slave03 cat ~/.ssh/id_rsa.pub
 
-  echo m1
-  echo m2
-  echo s1
-  echo s2
-  echo s3
+  echo $m1
+  echo $m2
+  echo $s1
+  echo $s2
+  echo $s3
 
 }
 
