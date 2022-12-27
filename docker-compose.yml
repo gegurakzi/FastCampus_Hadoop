@@ -2,6 +2,7 @@
 services:
   master01:
     image: centos7/hadoop:ws
+    container_name: master01
     networks:
       ws_net:
         ipv4_address: 172.28.0.8
@@ -12,6 +13,7 @@ services:
 
   master02:
     image: centos7/hadoop:ws
+    container_name: master02
     networks:
       ws_net:
         ipv4_address: 172.28.0.9
@@ -22,6 +24,7 @@ services:
 
   slave01:
     image: centos7/hadoop:ws
+    container_name: slave01
     networks:
       ws_net:
         ipv4_address: 172.28.0.10
@@ -32,6 +35,7 @@ services:
 
   slave02:
     image: centos7/hadoop:ws
+    container_name: slave02
     networks:
       ws_net:
         ipv4_address: 172.28.0.11
@@ -42,6 +46,7 @@ services:
 
   slave03:
     image: centos7/hadoop:ws
+    container_name: slave03
     networks:
       ws_net:
         ipv4_address: 172.28.0.12
