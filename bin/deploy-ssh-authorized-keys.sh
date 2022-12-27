@@ -24,9 +24,9 @@ echo $s3 >> authorized_keys
 cat authorized_keys
 
 sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
-sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
-sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
-sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
-sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys master02:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys slave01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys slave02:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys slave03:/root/.ssh/authorized_keys
 
 rm authorized_keys
