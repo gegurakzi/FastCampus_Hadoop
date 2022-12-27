@@ -12,6 +12,12 @@ services:
     networks:
       ws_net:
         ipv4_address: 172.28.0.8
+    ports:
+      - "8088:8088"
+      - "8030:8030"
+      - "8042:8042"
+      - "4040:4040"
+      - "18080:18080"
     deploy:
       resources:
         limits:
@@ -31,6 +37,12 @@ services:
     networks:
       ws_net:
         ipv4_address: 172.28.0.9
+    ports:
+      - "8089:8088"
+      - "8031:8030"
+      - "8043:8042"
+      - "4041:4040"
+      - "18081:18080"
     deploy:
       resources:
         limits:
@@ -50,6 +62,12 @@ services:
     networks:
       ws_net:
         ipv4_address: 172.28.0.10
+    ports:
+      - "8090:8088"
+      - "8032:8030"
+      - "8044:8042"
+      - "4042:4040"
+      - "18082:18080"
     deploy:
       resources:
         limits:
@@ -69,6 +87,12 @@ services:
     networks:
       ws_net:
         ipv4_address: 172.28.0.11
+    ports:
+      - "8091:8088"
+      - "8033:8030"
+      - "8045:8042"
+      - "4043:4040"
+      - "18083:18080"
     deploy:
       resources:
         limits:
@@ -88,6 +112,12 @@ services:
     networks:
       ws_net:
         ipv4_address: 172.28.0.12
+    ports:
+      - "8092:8088"
+      - "8034:8030"
+      - "8046:8042"
+      - "4044:4040"
+      - "18084:18080"
     deploy:
       resources:
         limits:
