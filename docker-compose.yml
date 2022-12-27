@@ -4,7 +4,7 @@ services:
     image: centos7/hadoop:ws
     networks:
       ws_net:
-        - ipv4_address: 172.28.0.8
+        ipv4_address: 172.28.0.8
     deploy:
       resources:
         limits:
@@ -14,7 +14,7 @@ services:
     image: centos7/hadoop:ws
     networks:
       ws_net:
-        - ipv4_address: 172.28.0.9
+        ipv4_address: 172.28.0.9
     deploy:
       resources:
         limits:
@@ -24,7 +24,7 @@ services:
     image: centos7/hadoop:ws
     networks:
       ws_net:
-        - ipv4_address: 172.28.0.10
+        ipv4_address: 172.28.0.10
     deploy:
       resources:
         limits:
@@ -34,7 +34,7 @@ services:
     image: centos7/hadoop:ws
     networks:
       ws_net:
-        - ipv4_address: 172.28.0.11
+        ipv4_address: 172.28.0.11
     deploy:
       resources:
         limits:
@@ -44,7 +44,7 @@ services:
     image: centos7/hadoop:ws
     networks:
       ws_net:
-        - ipv4_address: 172.28.0.12
+        ipv4_address: 172.28.0.12
     deploy:
       resources:
         limits:
