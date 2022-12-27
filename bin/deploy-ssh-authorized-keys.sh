@@ -15,13 +15,13 @@ get_authorized_keys() {
 
   local auth_keys=${m1}$'\n'${m2}$'\n'${s1}$'\n'${s2}$'\n'${s3}$'\n'
 
-  echo auth_keys
+  echo ${auth_keys}
 
-  sudo docker exec master01 ${auth_keys} > /root/.ssh/authorized_keys
-  sudo docker exec master02 ${auth_keys} > /root/.ssh/authorized_keys
-  sudo docker exec slave01 ${auth_keys} > /root/.ssh/authorized_keys
-  sudo docker exec slave02 ${auth_keys} > /root/.ssh/authorized_keys
-  sudo docker exec slave03 ${auth_keys} > /root/.ssh/authorized_keys
+  sudo docker exec -u 0 master01 ${auth_keys} > /root/.ssh/authorized_keys
+  sudo docker exec -u 0 master02 ${auth_keys} > /root/.ssh/authorized_keys
+  sudo docker exec -u 0 slave01 ${auth_keys} > /root/.ssh/authorized_keys
+  sudo docker exec -u 0 slave02 ${auth_keys} > /root/.ssh/authorized_keys
+  sudo docker exec -u 0 slave03 ${auth_keys} > /root/.ssh/authorized_keys
 
 }
 
