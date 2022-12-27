@@ -14,12 +14,19 @@ echo $s3
 
 auth_keys=${m1}$'\n'${m2}$'\n'${s1}$'\n'${s2}$'\n'${s3}$'\n'
 
-echo ${auth_keys}
+touch authorized_keys
+echo $m1 >> authorized_keys
+echo $m2 >> authorized_keys
+echo $s1 >> authorized_keys
+echo $s2 >> authorized_keys
+echo $s3 >> authorized_keys
 
-cmd_string=
+cat authorized_keys
 
-sudo docker exec -u 0 master01 sh -c 'echo '${auth_keys}' > /root/.ssh/authorized_keys'
-sudo docker exec -u 0 master02 sh -c 'echo '${auth_keys}' > /root/.ssh/authorized_keys'
-sudo docker exec -u 0 slave01 sh -c 'echo '${auth_keys}' > /root/.ssh/authorized_keys'
-sudo docker exec -u 0 slave02 sh -c 'echo '${auth_keys}' > /root/.ssh/authorized_keys'
-sudo docker exec -u 0 slave03 sh -c 'echo '${auth_keys}' > /root/.ssh/authorized_keys'
+sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+sudo docker cp authorized_keys master01:/root/.ssh/authorized_keys
+
+rm authorized_keys
