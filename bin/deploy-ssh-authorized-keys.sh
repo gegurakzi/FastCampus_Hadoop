@@ -13,7 +13,7 @@ get_authorized_keys() {
   echo $s2
   echo $s3
 
-  local auth_keys=${m1}$`\n`${m2}$`\n`${s1}$`\n`${s2}$`\n`${s3}$`\n`
+  local auth_keys=${m1}$'\n'${m2}$'\n'${s1}$'\n'${s2}$'\n'${s3}$'\n'
 
   echo ${auth_keys}
 
