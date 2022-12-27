@@ -3,6 +3,7 @@ services:
   master01:
     image: centos7/hadoop:ws
     container_name: master01
+    hostname: master01
     networks:
       ws_net:
         ipv4_address: 172.28.0.8
@@ -10,10 +11,13 @@ services:
       resources:
         limits:
           memory: 1536M
+    stdin_open: true
+    tty: true
 
   master02:
     image: centos7/hadoop:ws
     container_name: master02
+    hostname: master02
     networks:
       ws_net:
         ipv4_address: 172.28.0.9
@@ -21,10 +25,13 @@ services:
       resources:
         limits:
           memory: 1536M
+    stdin_open: true
+    tty: true
 
   slave01:
     image: centos7/hadoop:ws
     container_name: slave01
+    hostname: slave01
     networks:
       ws_net:
         ipv4_address: 172.28.0.10
@@ -32,10 +39,13 @@ services:
       resources:
         limits:
           memory: 1536M
+    stdin_open: true
+    tty: true
 
   slave02:
     image: centos7/hadoop:ws
     container_name: slave02
+    hostname: slave02
     networks:
       ws_net:
         ipv4_address: 172.28.0.11
@@ -43,10 +53,13 @@ services:
       resources:
         limits:
           memory: 1536M
+    stdin_open: true
+    tty: true
 
   slave03:
     image: centos7/hadoop:ws
     container_name: slave03
+    hostname: slave03
     networks:
       ws_net:
         ipv4_address: 172.28.0.12
@@ -54,6 +67,8 @@ services:
       resources:
         limits:
           memory: 1536M
+    stdin_open: true
+    tty: true
 
 networks:
   ws_net:
