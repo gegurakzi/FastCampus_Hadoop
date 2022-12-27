@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
-sudo docker exec --user root master01 /bin/bash && /usr/sbin/sshd-keygen -A && /usr/sbin/sshd && ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+sudo docker exec -u 0 master01 /usr/sbin/sshd-keygen -A
+sudo docker exec -u 0 master01 /usr/sbin/sshd
+sudo docker exec -u 0 master01 ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
 
-sudo docker exec --user root master02 /bin/bash && /usr/sbin/sshd-keygen -A && /usr/sbin/sshd && ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+sudo docker exec -u 0 master02 /usr/sbin/sshd-keygen -A
+sudo docker exec -u 0 master02 /usr/sbin/sshd
+sudo docker exec -u 0 master02 ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
 
-sudo docker exec --user root slave01 /bin/bash && /usr/sbin/sshd-keygen -A && /usr/sbin/sshd && ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+sudo docker exec -u 0 slave01 /usr/sbin/sshd-keygen -A
+sudo docker exec -u 0 slave01 /usr/sbin/sshd
+sudo docker exec -u 0 slave01 ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
 
-sudo docker exec --user root slave02 /bin/bash && /usr/sbin/sshd-keygen -A && /usr/sbin/sshd && ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+sudo docker exec -u 0 slave02 /usr/sbin/sshd-keygen -A
+sudo docker exec -u 0 slave02 /usr/sbin/sshd
+sudo docker exec -u 0 slave02 ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
 
-sudo docker exec --user root slave03 /bin/bash && /usr/sbin/sshd-keygen -A && /usr/sbin/sshd && ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+sudo docker exec -u 0 slave03 /usr/sbin/sshd-keygen -A
+sudo docker exec -u 0 slave03 /usr/sbin/sshd
+sudo docker exec -u 0 slave03 ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
