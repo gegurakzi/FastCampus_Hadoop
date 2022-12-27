@@ -1,0 +1,59 @@
+
+services:
+  master01:
+    image: centos7/hadoop:ws
+    networks:
+      ws_net:
+        - ipv4_address: 172.28.0.8
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+
+  master02:
+    image: centos7/hadoop:ws
+    networks:
+      ws_net:
+        - ipv4_address: 172.28.0.9
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+
+  slave01:
+    image: centos7/hadoop:ws
+    networks:
+      ws_net:
+        - ipv4_address: 172.28.0.10
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+
+  slave02:
+    image: centos7/hadoop:ws
+    networks:
+      ws_net:
+        - ipv4_address: 172.28.0.11
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+
+  slave03:
+    image: centos7/hadoop:ws
+    networks:
+      ws_net:
+        - ipv4_address: 172.28.0.12
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+
+networks:
+  ws_net:
+    ipam:
+      driver: default
+      config:
+        gateway:
+        subnet: 172.28.0.0/24
