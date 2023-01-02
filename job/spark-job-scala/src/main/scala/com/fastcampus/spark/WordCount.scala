@@ -7,10 +7,6 @@ object WordCount {
   def main(args: Array[String]): Unit = {
     println(">>> WordCountScala...")
 
-    println(args(0))
-    println(args(1))
-    println(args(2))
-
     var input = args(0)
     var output = args(1)
     var delimiter = " "
