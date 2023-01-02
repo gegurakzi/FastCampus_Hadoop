@@ -47,9 +47,9 @@ total 5 containers deployed by docker-compose.yml
 including scripts that help ssh keygen and sharing public keys by authorized_keys file
 
 - exposed ports
-  - 9870: HDFS Web UI\
-  - 8088: YARN Web UI\
-  - 4040: Driver(Application Master) Web UI\
+  - 9870: HDFS Web UI
+  - 8088: YARN Web UI
+  - 4040: Driver(Application Master) Web UI
   - 18080: Spark History Server UI
 ```
 # cluster deployment with docker-compose(with superuser)
